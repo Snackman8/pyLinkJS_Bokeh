@@ -8,7 +8,7 @@ import time
 import pandas as pd
 import bokeh.models
 import bokeh.plotting
-from .bokehPlugin_util import promote_kwargs_prefix, configure_color_palette
+from .bokehPlugin_util import promote_kwargs_prefix, configure_color_palette, post_process_figure
 from .bokehPlugin_boxplot_chart import create_chart_js as create_boxplot_chart_js
 from .bokehPlugin_boxplot_chart import update_chart_js as update_boxplot_chart_js
 from .bokehPlugin_hbar_chart import create_chart_js as create_hbar_chart_js
@@ -173,11 +173,14 @@ class pluginBokeh:
             logging.info(f'"{chart_name}" not found on page')
             return
         kwargs = cls.BOKEH_CONTEXT[jsc.page_instance_id]['kwargs'][chart_name]
-        
+
         # calcualte prepared values
         pv = cls._prep_for_chart(df=df, **kwargs)
 
         # call the update_js for the chart type, i.e. update_line_chart_js
         func_js = globals()[f'update_{kwargs["chart_type"]}_chart_js']
         js = func_js(pv)
+
+        js = js + cls.BOKEH_CONTEXT[jsc.page_instance_id]['kwargs'][chart_name]['post_figure_update_js']
+
         jsc.eval_js_code(js, blocking=False)
