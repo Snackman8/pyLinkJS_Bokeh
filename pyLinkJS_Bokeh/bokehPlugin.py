@@ -134,8 +134,8 @@ class pluginBokeh:
         # compute the figure_kwargs
         figure_kwargs = cls._extract_targetclass_kwargs(bokeh.plotting.figure, kwargs, delete=True)
 #        figure_kwargs.update(promote_kwargs_prefix(['__figure__'], kwargs))
-        # if 'x_axis_type' in kwargs:
-        #     figure_kwargs['x_axis_type'] = kwargs['x_axis_type']
+        if 'x_axis_type' in kwargs:
+            figure_kwargs['x_axis_type'] = kwargs['x_axis_type']
         pv['figure_kwargs'] = figure_kwargs
         pv['kwargs'] = kwargs
 
