@@ -43,7 +43,8 @@ class pluginBokeh:
         self._kwargs = {
             'global_template_vars': {'create_chart': self._create_chart}
             }
-        self.jsc_exposed_funcs = {'update_chart': self._update_chart}
+        self.jsc_exposed_funcs = {'update_chart': self._update_chart,
+                                  'add_custom_chart_type': self.add_custom_chart_type}
 
     def register(self, kwargs):
         """ callback to register this plugin with the framework """
@@ -141,6 +142,10 @@ class pluginBokeh:
         # success!
         return pv
 
+
+    def add_custom_chart_type(self, chart_type, create_func, update_func):
+        globals()[f'create_{chart_type}_chart_js'] = create_func
+        globals()[f'update_{chart_type}_chart_js'] = update_func
 
     def _create_chart(self, chart_type, page_instance_id, jsc_sequence_number=0, **kwargs):
         # create the document if needed
