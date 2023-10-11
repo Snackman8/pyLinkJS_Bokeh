@@ -46,6 +46,19 @@ class pluginBokeh:
         self.jsc_exposed_funcs = {'update_chart': self._update_chart,
                                   'add_custom_chart_type': self.add_custom_chart_type}
 
+    def inject_html_top(self):
+        return """
+            <head>
+            <!-- bokeh -->
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.1.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.1.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.1.1.min.js" crossorigin="anonymous"></script>
+            </head>"""
+
+
     def register(self, kwargs):
         """ callback to register this plugin with the framework """
         # merge the dictionaries
