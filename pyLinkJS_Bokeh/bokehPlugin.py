@@ -181,6 +181,6 @@ class pluginBokeh:
         func_js = globals()[f'update_{kwargs["chart_type"]}_chart_js']
         js = func_js(pv)
 
-        js = js + cls.BOKEH_CONTEXT[jsc.page_instance_id]['kwargs'][chart_name]['post_figure_update_js']
+        js = js + cls.BOKEH_CONTEXT[jsc.page_instance_id]['kwargs'][chart_name].get('post_figure_update_js', '')
 
         jsc.eval_js_code(js, blocking=False)
