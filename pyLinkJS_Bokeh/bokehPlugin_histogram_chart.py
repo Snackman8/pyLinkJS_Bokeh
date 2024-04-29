@@ -37,7 +37,7 @@ def create_chart_df(pv):
             C          30   3C  3.141593  #2ca02c   6.283185     3.141593    4.712389            
     """
     # init, grab the first color off the palette using a fake dataframe
-    palette = configure_color_palette(pd.DataFrame(index=[0], columns=['A']))
+    palette = configure_color_palette(pd.DataFrame(index=[0], columns=['A']), user_palette=pv['kwargs'].get('user_palette', None))
 
     # convert
     df = pv['df'].copy()
