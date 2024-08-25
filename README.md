@@ -72,23 +72,25 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 | page_instance_id | magic id for the page the chart is associated with |
 | toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
 
-## Line Chart
-
+## Chart Documentation
 <table>
-<tr><th>line_chart.py</th><th>line_chart.html</th></tr>
-<tr><td><pre>
-    data = {'A': [ 68, 51, 97, 63],
-            'B': [ 28, 91, 66, 11],
-            'C': [ 20, 74, 29, 88]}    
-    df = pd.DataFrame(data)
-    jsc.update_chart('chart_line', df)
+<tr><th>Python</th><th>HTML</th><th></th></tr>
+<tr><td><pre lang="python">
+# Line Chart
+
+data = {'A': [ 68, 51, 97, 63],
+        'B': [ 28, 91, 66, 11],
+        'C': [ 20, 74, 29, 88]}    
+df = pd.DataFrame(data)
+jsc.update_chart('chart_line', df)
 </pre></td>
-<td><pre>
+<td><pre pre lang="python">
 {% raw create_chart(name='chart_line', chart_type='line',
                     page_instance_id=page_instance_id) %}
 </pre></td>
 <td>
-![image](https://github.com/user-attachments/assets/65bdfb5e-50d1-4068-a2ca-48348fc8aeda)
+    
+![image](https://github.com/user-attachments/assets/9070dbf9-db72-4ca7-8376-6e5e9cd53056)
 </td>
 </tr>
 </table>
