@@ -74,5 +74,21 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 
 ## Line Chart
 
-![image](https://github.com/user-attachments/assets/c9c7454a-a453-41be-9497-c7ed2c9ddf98)
-
+<table>
+<tr><th>line_chart.py</th><th>line_chart.html</th></tr>
+<tr><td><pre>
+    data = {'A': [ 68, 51, 97, 63],
+            'B': [ 28, 91, 66, 11],
+            'C': [ 20, 74, 29, 88]}    
+    df = pd.DataFrame(data)
+    jsc.update_chart('chart_line', df)
+</pre></td>
+<td><pre>
+{% raw create_chart(name='chart_line', chart_type='line',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+<td>
+![image](https://github.com/user-attachments/assets/65bdfb5e-50d1-4068-a2ca-48348fc8aeda)
+</td>
+</tr>
+</table>
