@@ -58,3 +58,21 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
                         page_instance_id=page_instance_id) %}
 </body>
 ```
+
+## Common Parameters for Charts
+| Parameter | Description |
+| --- | --- |
+| name | Unique name of the chart.  Used to access the chart from Python |
+| chart_type | the type of chart, i.e. 'line' or 'pie' |
+| title | The display title of the chart |
+| width | width of the chart in pixels |
+| height | height of the chart in pixels |
+| x_axis_label | caption for the x axis |
+| y_axis_label | caption for the y axis |
+| page_instance_id | magic id for the page the chart is associated with |
+| toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
+
+## Line Chart
+
+![image](https://github.com/user-attachments/assets/c9c7454a-a453-41be-9497-c7ed2c9ddf98)
+
