@@ -320,12 +320,18 @@ E      48      E E
 
 #### Box Plot Chart
 
+_DOCUMENTATION NOT READY YET_
+
  <br>
  <br>
 
 #### Vertical Area Chart
 
+_DOCUMENTATION NOT READY YET_
+
  <br>
  <br>
 
 #### Custom Chart
+
+_DOCUMENTATION NOT READY YET_
