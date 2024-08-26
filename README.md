@@ -74,7 +74,7 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 
 ## Chart Documentation
 
-#### Line Chart
+### Line Chart
 <table width=100%>
 <tr><th>Python</th><th>HTML</th></tr>
 <tr><td><pre lang="python">
@@ -91,15 +91,14 @@ jsc.update_chart('chart_line', df)
                     page_instance_id=page_instance_id) %}
 </pre></td>
 </tr>
-</table>
-<table width=100%>
-<tr><td><img src="https://github.com/user-attachments/assets/9070dbf9-db72-4ca7-8376-6e5e9cd53056" height="150"></td>
-    <td>
-        
-**Parameters Available**
-- name, chart_type, page_instance_id
-- height, title, toolbar_visible, width, x_axis_label, y_axis_label
-    </td>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr><td><pre>
+    A   B   C
+0  68  28  20
+1  51  91  74
+2  97  66  29
+3  63  11  88    
+</pre></td><td><img src="https://github.com/user-attachments/assets/0a07a722-0db0-4ba9-b979-4e8b112ba68f"></td>    
 </tr>
 </table>
 
