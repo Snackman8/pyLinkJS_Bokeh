@@ -257,17 +257,44 @@ Z  68  28  20
  <br>
  <br>
 
+#### Table Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr valign=top><td><pre lang="python">
+# Table Chart
+data = {'A': [93, 8, 68],
+        'B': [8, 21, 44],
+        'C': [68, 28, 20]}    
+df = pd.DataFrame(data)
+jsc.update_chart('chart_table', df)
+</pre></td>
+<td><pre pre lang="python">
+ <br>
+{% raw create_chart(name='chart_table', chart_type='table',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr valign=top><td><pre>
+    A   B   C
+0  93  63   8
+1   8  21  44
+2  68  28  20
+</pre></td><td><img src="https://github.com/user-attachments/assets/723a47d8-66a0-4ef8-ad0b-02f6863db009"></td>
+</tr>
+</table>
+
+
+ <br>
+ <br>
+
+
 #### Box Plot Chart
 
  <br>
  <br>
 
 #### Historgram Chart
-
- <br>
- <br>
-
-#### Table Chart
 
  <br>
  <br>
