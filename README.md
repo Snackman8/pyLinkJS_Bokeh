@@ -195,7 +195,64 @@ Z  68  28  20
  <br>
  <br>
 
-#### Vertical Bar Chart
+### Vertical Bar Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr valign=top><td><pre lang="python">
+# Vertical Bar Chart
+data = {'A': [68],
+        'B': [28],
+        'C': [20]}    
+df = pd.DataFrame(data, index=['Z'])
+jsc.update_chart('chart_vbar', df)
+</pre></td>
+<td><pre pre lang="python">
+ <br>
+{% raw create_chart(name='chart_vbar', chart_type='vbar',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr valign=top><td><pre>
+    A   B   C
+Z  68  28  20
+<br>
+<i>The index is the x-axis label for the bars</i>
+</pre></td><td><img src="https://github.com/user-attachments/assets/278888cf-a841-406f-86a6-38f2712be01c"></td>
+</tr>
+</table>
+
+ <br>
+ <br>
+
+#### Vertical Bar Chart Grouped
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr valign=top><td><pre lang="python">
+# Vertical Bar Chart
+data = {'A': [93, 8, 68],
+        'B': [8, 21, 44],
+        'C': [68, 28, 20]}    
+df = pd.DataFrame(data, index=['X', 'Y', 'Z'])
+jsc.update_chart('chart_vbar_grouped', df)
+</pre></td>
+<td><pre pre lang="python">
+ <br>
+{% raw create_chart(name='chart_vbar_grouped', chart_type='vbar',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr valign=top><td><pre>
+    A   B   C
+X  93  63   8
+Y   8  21  44
+Z  68  28  20
+<br>
+<i>The index is the x-axis label for the bars</i>
+</pre></td><td><img src="https://github.com/user-attachments/assets/62158af0-b3a1-4131-b7de-210045fecacc"></td>
+</tr>
+</table>
 
  <br>
  <br>
