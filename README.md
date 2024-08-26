@@ -284,17 +284,41 @@ jsc.update_chart('chart_table', df)
 </tr>
 </table>
 
-
  <br>
  <br>
 
+#### Histogram Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr valign=top><td><pre lang="python">
+# Histogram Chart
+data = {'counts': [17, 96, 13, 7, 48],
+        'bin_text': ['A A', 'B B', 'C C', 'D D', 'E E']}
+df = pd.DataFrame(data, index=['A', 'B', 'C', 'D', 'E'])
+jsc.update_chart('chart_histogram', df)
+</pre></td>
+<td><pre pre lang="python">
+ <br>
+{% raw create_chart(name='chart_histogram', chart_type='histogram',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr valign=top><td><pre>
+   counts bin_text
+A      17      A A
+B      96      B B
+C      13      C C
+D       7      D D
+E      48      E E
+</pre></td><td><img src="https://github.com/user-attachments/assets/64837160-7146-40c7-af02-91fda4a11838"></td>
+</tr>
+</table>
+
+ <br>
+ <br>
 
 #### Box Plot Chart
-
- <br>
- <br>
-
-#### Historgram Chart
 
  <br>
  <br>
