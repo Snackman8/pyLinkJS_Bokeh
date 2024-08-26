@@ -73,8 +73,10 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 | toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
 
 ## Chart Documentation
-<table>
-<tr><th>Python</th><th>HTML</th><th></th></tr>
+
+#### Line Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
 <tr><td><pre lang="python">
 # Line Chart
 
@@ -88,9 +90,10 @@ jsc.update_chart('chart_line', df)
 {% raw create_chart(name='chart_line', chart_type='line',
                     page_instance_id=page_instance_id) %}
 </pre></td>
-<td>
-    
-![image](https://github.com/user-attachments/assets/9070dbf9-db72-4ca7-8376-6e5e9cd53056)
-</td>
+</tr>
+</table>
+<table width=100%>
+<tr><td><img src="https://github.com/user-attachments/assets/9070dbf9-db72-4ca7-8376-6e5e9cd53056" height="150"></td>
+    <td>Additional Information</td>
 </tr>
 </table>
