@@ -107,8 +107,6 @@ jsc.update_chart('chart_line', df)
 <tr><th>Python</th><th>HTML</th></tr>
 <tr><td><pre lang="python">
 # Pie Chart
-
-
 data = {'A': [ 68, 'AA'],
         'B': [ 28, 'BB'],
         'C': [ 20, 'CC']}    
@@ -129,10 +127,33 @@ text   AA  BB  CC
 </tr>
 </table>
 
+#### Horizontal Bar Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr><td><pre lang="python">
+# Horizontal Bar Chart
+data = {'A': [ 68],
+        'B': [ 28],
+        'C': [ 20]}    
+df = pd.DataFrame(data, index=['Z'])
+jsc.update_chart('chart_hbar', df)
+</pre></td>
+<td><pre pre lang="python">
+{% raw create_chart(name='chart_hbar', chart_type='hbar',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr><td><pre>
+    A   B   C
+Z  68  28  20
+</pre></td><td><img src="https://github.com/user-attachments/assets/c393e85f-14cf-4a94-b42f-05b20914e4b0"></td>
+</tr>
+</table>
+
 
 #### Box Plot Chart
 
-#### Horizontal Bar Chart
 
 #### Historgram Chart
 
