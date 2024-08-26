@@ -64,13 +64,13 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 | --- | --- |
 | name | Unique name of the chart.  Used to access the chart from Python |
 | chart_type | the type of chart, i.e. 'line' or 'pie' |
-| title | The display title of the chart |
-| width | width of the chart in pixels |
+| page_instance_id | magic id for the page the chart is associated with |
 | height | height of the chart in pixels |
+| title | The display title of the chart |
+| toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
+| width | width of the chart in pixels |
 | x_axis_label | caption for the x axis |
 | y_axis_label | caption for the y axis |
-| page_instance_id | magic id for the page the chart is associated with |
-| toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
 
 ## Chart Documentation
 
@@ -94,7 +94,12 @@ jsc.update_chart('chart_line', df)
 </table>
 <table width=100%>
 <tr><td><img src="https://github.com/user-attachments/assets/9070dbf9-db72-4ca7-8376-6e5e9cd53056" height="150"></td>
-    <td>Additional Information</td>
+    <td>
+        
+**Parameters Available**
+- name, chart_type, page_instance_id
+- height, title, toolbar_visible, width, x_axis_label, y_axis_label
+    </td>
 </tr>
 </table>
 
