@@ -97,3 +97,19 @@ jsc.update_chart('chart_line', df)
     <td>Additional Information</td>
 </tr>
 </table>
+
+#### Box Plot Chart
+
+#### Horizontal Bar Chart
+
+#### Historgram Chart
+
+#### Pie Chart
+
+#### Table Chart
+
+#### Vertical Area Chart
+
+#### Vertical Bar Chart
+
+#### Custom Chart
