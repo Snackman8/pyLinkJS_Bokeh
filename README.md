@@ -102,13 +102,39 @@ jsc.update_chart('chart_line', df)
 </tr>
 </table>
 
+#### Pie Chart
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr><td><pre lang="python">
+# Pie Chart
+
+
+data = {'A': [ 68, 'AA'],
+        'B': [ 28, 'BB'],
+        'C': [ 20, 'CC']}    
+df = pd.DataFrame(data, index=['value', 'text'])
+jsc.update_chart('chart_pie', df)
+</pre></td>
+<td><pre pre lang="python">
+{% raw create_chart(name='chart_pie', chart_type='pie',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr><td><pre>
+        A   B   C
+value  68  28  20
+text   AA  BB  CC
+</pre></td><td><img src="https://github.com/user-attachments/assets/2329e0a3-129a-4cb8-850b-cfcb369a63a6"></td>    
+</tr>
+</table>
+
+
 #### Box Plot Chart
 
 #### Horizontal Bar Chart
 
 #### Historgram Chart
-
-#### Pie Chart
 
 #### Table Chart
 
