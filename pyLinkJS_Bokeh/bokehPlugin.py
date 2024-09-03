@@ -43,8 +43,10 @@ class pluginBokeh:
         self._kwargs = {
             'global_template_vars': {'create_chart': self._create_chart}
             }
-        self.jsc_exposed_funcs = {'update_chart': self._update_chart,
-                                  'add_custom_chart_type': self.add_custom_chart_type}
+        self.jsc_exposed_funcs = {'add_custom_chart_type': self.add_custom_chart_type,
+                                  'refresh_chart': self.refresh_chart,
+                                  'set_chart_property': self.set_chart_property,
+                                  'update_chart': self._update_chart}
 
     def inject_html_top(self):
         return """
@@ -160,6 +162,7 @@ class pluginBokeh:
         globals()[f'create_{chart_type}_chart_js'] = create_func
         globals()[f'update_{chart_type}_chart_js'] = update_func
 
+
     def _create_chart(self, chart_type, page_instance_id, jsc_sequence_number=0, **kwargs):
         # create the document if needed
         if page_instance_id not in self.BOKEH_CONTEXT:
@@ -177,6 +180,16 @@ class pluginBokeh:
             return div + script
         except:
             return '<div>Unable to create chart</div>'
+
+    @classmethod
+    def refresh_chart(cls, jsc, chart_name, prop=""):
+        js = f"""Bokeh.documents[0].get_model_by_name("{chart_name}").change.emit()"""
+        jsc.eval_js_code(js)
+
+    @classmethod
+    def set_chart_property(cls, jsc, chart_name, prop, value):
+        js = f"""Bokeh.documents[0].get_model_by_name("{chart_name}").{prop} = {value}"""
+        jsc.eval_js_code(js)
 
 
     @classmethod
