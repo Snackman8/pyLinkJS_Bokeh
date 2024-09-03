@@ -337,3 +337,45 @@ _DOCUMENTATION NOT READY YET_
 #### Custom Chart
 
 _DOCUMENTATION NOT READY YET_
+
+## Advanced Examples
+
+#### Dates on X-Axis
+<table width=100%>
+<tr><th>Python</th><th>HTML</th></tr>
+<tr valign=top><td><pre lang="python">
+# Line chart with date on x-Axis
+data = {'A': [28, 91, 66, 11]}
+index = pd.to_datetime(['2024-01-01', 2024-01-02',
+                        '2024-01-03', '2024-01-04'])
+
+# convert from datetime64ns to ms after epoch format
+index = index.map(pd.Timestamp.timestamp) * 1000
+
+# create dataframe
+df = pd.DataFrame(data=data, index=index)
+
+# update chart
+jsc.update_chart('chart_line', df)
+</pre></td>
+<td><pre pre lang="python">
+ <br>
+{% raw create_chart(name='chart_line', chart_type='line',
+                    x_axis_type='datetime',
+                    page_instance_id=page_instance_id) %}
+</pre></td>
+</tr>
+<tr><th>DataFrame</th><th>Image</th></tr>
+<tr valign=top><td><pre>
+               A
+1.704067e+12  28
+1.704154e+12  91
+1.704240e+12  66
+1.704326e+12  11    
+</pre></td><td><img src="https://github.com/user-attachments/assets/a3a9d83b-2793-4c71-a3cd-558c8acc8597"></td>
+</tr>
+</table>
+
+ <br>
+ <br>
+
