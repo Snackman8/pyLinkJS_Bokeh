@@ -3,12 +3,15 @@
 # --------------------------------------------------
 #    Imports
 # --------------------------------------------------
+import inspect
 import logging
 import time
 import pandas as pd
 import bokeh.models
 import bokeh.plotting
 from .bokehPlugin_util import promote_kwargs_prefix, configure_color_palette, post_process_figure
+from .bokehPlugin_blank_chart import create_chart_js as create_blank_chart_js
+from .bokehPlugin_blank_chart import update_chart_js as update_blank_chart_js
 from .bokehPlugin_boxplot_chart import create_chart_js as create_boxplot_chart_js
 from .bokehPlugin_boxplot_chart import update_chart_js as update_boxplot_chart_js
 from .bokehPlugin_hbar_chart import create_chart_js as create_hbar_chart_js
@@ -27,6 +30,118 @@ from .bokehPlugin_table_chart import update_chart_js as update_table_chart_js
 # --------------------------------------------------
 #    Plugin
 # --------------------------------------------------
+class bokehChart:
+    def __init__(self, jsc, chart_name):
+        self._chart_name = chart_name
+        self._jsc = jsc
+        self._js_chart = f"""Bokeh.documents[0].get_model_by_name('{self._chart_name}')"""
+        self._palette = ['#006ddb', '#db6d00', '#22cf22', '#920000', '#490092',
+                         '#8f4e00', '#ff6db6', '#676767', '#004949', '#009999']            
+        self._color_index = {}
+        
+    def _add_figure_object(self, obj_type, **kwargs):
+        """ add a generic bokeh glyph """
+        
+        # handle colors
+        ci = self._color_index.get(obj_type, -1)
+        ci = ci + 1
+        self._color_index[obj_type] = ci
+        if 'color' not in kwargs:
+            palette = kwargs.get('palette', self._palette)
+            kwargs['color'] = palette[ci % len(palette)]
+        
+        # defaults
+        kwargs['name'] = kwargs.get('name', f"""{obj_type}_{ci}""")
+        kwargs['legend_label'] = kwargs.get('legend_label', f"""{obj_type}_{ci}""")
+        legend_label = kwargs.pop('legend_label')
+        
+        s = []
+        for k, v in kwargs.items():
+            value = v
+            if isinstance(value, str):
+                value = f"""'{value}'"""
+            
+            s.append(f"""{k}: {value}""")
+        s = ', '.join(s)
+        
+        js = f"""
+            {self._js_chart}.{obj_type}({{{s}}});\n"""
+
+        if legend_label is not None:
+            js += f"""
+                var lio = new Bokeh.LegendItem({{label: '{legend_label}'}});
+                lio.renderers.push(Bokeh.documents[0].get_model_by_name('{kwargs['name']}'));
+                {self._js_chart}.legend.items.push(lio);
+                {self._js_chart}.change.emit();
+                {self._js_chart}.legend.change.emit();
+            """
+
+        self._jsc.eval_js_code(js, blocking=False)
+
+    def exec_js(self, js):
+        self._jsc.eval_js_code(self._js_chart + '.' + js, blocking=False)
+
+    def annular_wedge(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def annulus(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def arc(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def asterisk(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def bezier(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def circle(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def circle_cross(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def circle_dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def circle_x(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def circle_y(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def cross(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def dash(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def diamond(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def diamond_cross(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def diamond_dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def ellipse(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def harea(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def harea_step(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def hbar(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def hex(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def hex_tile(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def hstrip(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def hspan(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def image(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def image_rgba(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def image_url(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def inverted_triangle(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def line(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def multi_line(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def multi_polygons(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def patch(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def patches(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def plus(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def quad(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def quadratic(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def ray(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def rect(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def segment(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def square(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def square_cross(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def square_dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def square_pin(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def square_x(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def star(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def star_dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def step(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def text(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def triangle(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def triangle_dot(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def triangle_pin(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def varea(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def varea_step(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def vbar(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def vstrip(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def vspan(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def wedge(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def x(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
+    def y(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)        
+
+
 class pluginBokeh:
     """ plugin for bokeh application """
     # --------------------------------------------------
@@ -44,8 +159,7 @@ class pluginBokeh:
             'global_template_vars': {'create_chart': self._create_chart}
             }
         self.jsc_exposed_funcs = {'add_custom_chart_type': self.add_custom_chart_type,
-                                  'refresh_chart': self.refresh_chart,
-                                  'set_chart_property': self.set_chart_property,
+                                  'get_bokeh_chart': self.get_bokeh_chart,
                                   'update_chart': self._update_chart}
 
     def inject_html_top(self):
@@ -182,15 +296,8 @@ class pluginBokeh:
             return '<div>Unable to create chart</div>'
 
     @classmethod
-    def refresh_chart(cls, jsc, chart_name, prop=""):
-        js = f"""Bokeh.documents[0].get_model_by_name("{chart_name}").change.emit()"""
-        jsc.eval_js_code(js)
-
-    @classmethod
-    def set_chart_property(cls, jsc, chart_name, prop, value):
-        js = f"""Bokeh.documents[0].get_model_by_name("{chart_name}").{prop} = {value}"""
-        jsc.eval_js_code(js)
-
+    def get_bokeh_chart(cls, jsc, chart_name) -> bokehChart:
+        return bokehChart(jsc, chart_name)
 
     @classmethod
     def _update_chart(cls, jsc, chart_name, df):
