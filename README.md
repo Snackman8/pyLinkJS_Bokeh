@@ -74,6 +74,22 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 | y_axis_label | caption for the y axis |
 | y_axis_type | type of scale for y-axis, can be 'auto' or 'datetime' <br> for datetime, use milliseconds after epoch <br> i.e. if the index is datetime64ns, use `df.index.map(pd.Timestamp.timestamp) * 1000` |
 
+## Python Methods for Charts
+
+refresh_chart
+
+`jsc.refresh_chart('chart_line')`
+
+set_chart_property
+
+`jsc.set_chart_property('chart_line', 'xaxes[0].axis_line_color', '"red"')`
+
+update_chart
+
+`jsc.update_chart('chart_line', df)`
+
+
+
 ## Chart Documentation
 
 ### Line Chart
