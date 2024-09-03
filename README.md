@@ -348,13 +348,10 @@ _DOCUMENTATION NOT READY YET_
 data = {'A': [28, 91, 66, 11]}
 index = pd.to_datetime(['2024-01-01', 2024-01-02',
                         '2024-01-03', '2024-01-04'])
-
 # convert from datetime64ns to ms after epoch format
 index = index.map(pd.Timestamp.timestamp) * 1000
-
 # create dataframe
 df = pd.DataFrame(data=data, index=index)
-
 # update chart
 jsc.update_chart('chart_line', df)
 </pre></td>
