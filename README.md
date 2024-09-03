@@ -70,7 +70,9 @@ run_pylinkjs_app(default_html='example.html', port=8300, plugins=[bokeh_plugin])
 | toolbar_visible | If set to False, will hide the Bokeh toolbar (Default True) |
 | width | width of the chart in pixels |
 | x_axis_label | caption for the x axis |
+| x_axis_type | type of scale for x-axis, can be 'auto' or 'datetime' <br> for datetime, use milliseconds after epoch <br> i.e. if the index is datetime64ns, use `df.index.map(pd.Timestamp.timestamp) * 1000` |
 | y_axis_label | caption for the y axis |
+| y_axis_type | type of scale for y-axis, can be 'auto' or 'datetime' <br> for datetime, use milliseconds after epoch <br> i.e. if the index is datetime64ns, use `df.index.map(pd.Timestamp.timestamp) * 1000` |
 
 ## Chart Documentation
 
