@@ -38,10 +38,22 @@ class bokehChart:
         self._palette = ['#006ddb', '#db6d00', '#22cf22', '#920000', '#490092',
                          '#8f4e00', '#ff6db6', '#676767', '#004949', '#009999']            
         self._color_index = {}
-        
+        self._hold = False
+        self._js = ''
+
+    def _dict_to_js_map(self, d):
+        s = []
+        for k, v in d.items():
+            value = v
+            if isinstance(value, str):
+                value = f"""'{value}'"""
+
+            s.append(f"""{k}: {value}""")
+        s = ', '.join(s)
+        return s
+
     def _add_figure_object(self, obj_type, **kwargs):
         """ add a generic bokeh glyph """
-        
         # handle colors
         ci = self._color_index.get(obj_type, -1)
         ci = ci + 1
@@ -55,15 +67,7 @@ class bokehChart:
         kwargs['legend_label'] = kwargs.get('legend_label', f"""{obj_type}_{ci}""")
         legend_label = kwargs.pop('legend_label')
         
-        s = []
-        for k, v in kwargs.items():
-            value = v
-            if isinstance(value, str):
-                value = f"""'{value}'"""
-            
-            s.append(f"""{k}: {value}""")
-        s = ', '.join(s)
-        
+        s = self._dict_to_js_map(kwargs)
         js = f"""
             {self._js_chart}.{obj_type}({{{s}}});\n"""
 
@@ -76,10 +80,36 @@ class bokehChart:
                 {self._js_chart}.legend.change.emit();
             """
 
-        self._jsc.eval_js_code(js, blocking=False)
+        self._js += js
+        if not self._hold:
+            self._jsc.eval_js_code(self._js, blocking=False)
+            self._js = ''
 
     def exec_js(self, js):
-        self._jsc.eval_js_code(self._js_chart + '.' + js, blocking=False)
+        self._js += self._js_chart + '.' + js + ';\n'
+        if not self._hold:
+            self._jsc.eval_js_code(self._js, blocking=False)
+            self._js = ''
+
+    def annotate_box(self, **kwargs):
+        self.exec_js(f'add_layout(new Bokeh.BoxAnnotation({{{self._dict_to_js_map(kwargs)}}}))')
+
+    def annotate_label(self, **kwargs):
+        if 'x_date_offset' in kwargs:
+            # x_date_offset should be a timedelta
+            td = kwargs.pop('x_date_offset')
+            kwargs['x'] = kwargs['x'] + td.total_seconds() * 1000
+        self.exec_js(f'add_layout(new Bokeh.Label({{{self._dict_to_js_map(kwargs)}}}))')
+
+    def hold(self):
+        self._hold = True
+
+    def unhold(self):
+        self._hold = False
+        if self._js != '':
+            print(self._js)
+            self._jsc.eval_js_code(self._js, blocking=False)
+            self._js = ''
 
     def annular_wedge(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
     def annulus(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
