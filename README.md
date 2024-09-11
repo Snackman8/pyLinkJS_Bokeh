@@ -400,7 +400,6 @@ Create the two files below for an advanced blank chart example
 ```python
 
 
-import pandas as pd
 from pylinkjs.PyLinkJS import run_pylinkjs_app
 from pyLinkJS_Bokeh.bokehPlugin import pluginBokeh
 
@@ -435,7 +434,6 @@ run_pylinkjs_app(default_html='blank_chart.html', port=8300, plugins=[bokeh_plug
 ```python
 
 
-import pandas as pd
 from pylinkjs.PyLinkJS import run_pylinkjs_app
 from pyLinkJS_Bokeh.bokehPlugin import pluginBokeh
 
