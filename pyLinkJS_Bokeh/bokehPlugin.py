@@ -30,13 +30,27 @@ from .bokehPlugin_table_chart import update_chart_js as update_table_chart_js
 # --------------------------------------------------
 #    Plugin
 # --------------------------------------------------
+class obj:
+    def __init__(self, s):
+        self._s = s
+
+    def __str__(self):
+        return str(self._s)
+
+
 class bokehChart:
     def __init__(self, jsc, chart_name):
         self._chart_name = chart_name
         self._jsc = jsc
-        self._js_chart = f"""Bokeh.documents[0].get_model_by_name('{self._chart_name}')"""
+
+        js = f"""var index=-1; for (var i=0; i<Bokeh.documents.length;i++) {{if (Bokeh.documents[i].get_model_by_name('{chart_name}')) {{index=i;}};}}; index"""
+        self._doc_index = jsc.eval_js_code(js)
+        if self._doc_index == -1:
+            raise Exception('Chart not found in Bokeh Documents')
+
+        self._js_chart = f"""Bokeh.documents[{self._doc_index}].get_model_by_name('{self._chart_name}')"""
         self._palette = ['#006ddb', '#db6d00', '#22cf22', '#920000', '#490092',
-                         '#8f4e00', '#ff6db6', '#676767', '#004949', '#009999']            
+                         '#8f4e00', '#ff6db6', '#676767', '#004949', '#009999']
         self._color_index = {}
         self._hold = False
         self._js = ''
@@ -61,12 +75,12 @@ class bokehChart:
         if 'color' not in kwargs:
             palette = kwargs.get('palette', self._palette)
             kwargs['color'] = palette[ci % len(palette)]
-        
+
         # defaults
         kwargs['name'] = kwargs.get('name', f"""{obj_type}_{ci}""")
         kwargs['legend_label'] = kwargs.get('legend_label', f"""{obj_type}_{ci}""")
         legend_label = kwargs.pop('legend_label')
-        
+
         s = self._dict_to_js_map(kwargs)
         js = f"""
             {self._js_chart}.{obj_type}({{{s}}});\n"""
@@ -74,7 +88,7 @@ class bokehChart:
         if legend_label is not None:
             js += f"""
                 var lio = new Bokeh.LegendItem({{label: '{legend_label}'}});
-                lio.renderers.push(Bokeh.documents[0].get_model_by_name('{kwargs['name']}'));
+                lio.renderers.push(Bokeh.documents[{self._doc_index}].get_model_by_name('{kwargs['name']}'));
                 {self._js_chart}.legend.items.push(lio);
                 {self._js_chart}.change.emit();
                 {self._js_chart}.legend.change.emit();
@@ -85,8 +99,12 @@ class bokehChart:
             self._jsc.eval_js_code(self._js, blocking=False)
             self._js = ''
 
-    def exec_js(self, js):
-        self._js += self._js_chart + '.' + js + ';\n'
+    def exec_js(self, js, global_scope=False):
+        if not global_scope:
+            self._js += self._js_chart + '.' + js + ';\n'
+        else:
+            self._js += js + ';\n'
+
         if not self._hold:
             self._jsc.eval_js_code(self._js, blocking=False)
             self._js = ''
@@ -101,6 +119,10 @@ class bokehChart:
             kwargs['x'] = kwargs['x'] + td.total_seconds() * 1000
         self.exec_js(f'add_layout(new Bokeh.Label({{{self._dict_to_js_map(kwargs)}}}))')
 
+    def column_data_source(self, cds_name, cds_data_json):
+        js = f"""{cds_name} = new Bokeh.ColumnDataSource({{'data': JSON.parse('{cds_data_json}')}}); 0;\n"""
+        self.exec_js(js, global_scope=True)
+
     def hold(self):
         self._hold = True
 
@@ -110,6 +132,9 @@ class bokehChart:
             print(self._js)
             self._jsc.eval_js_code(self._js, blocking=False)
             self._js = ''
+
+    def js_chart_accessor(self):
+        return self._js_chart
 
     def annular_wedge(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
     def annulus(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
@@ -169,7 +194,7 @@ class bokehChart:
     def vspan(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
     def wedge(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
     def x(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
-    def y(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)        
+    def y(self, **kwargs): self._add_figure_object(inspect.currentframe().f_code.co_name, **kwargs)
 
 
 class pluginBokeh:

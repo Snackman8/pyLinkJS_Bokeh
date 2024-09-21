@@ -1,12 +1,22 @@
+import pandas as pd
 from pylinkjs.PyLinkJS import run_pylinkjs_app
-from pyLinkJS_Bokeh.bokehPlugin import pluginBokeh
+from pyLinkJS_Bokeh.bokehPlugin import pluginBokeh, obj
+
+import json
 
 def ready(jsc, *args):
     """ called when the webpage is loaded and ready """
+    # setup raw data
+    data = {'factors': ['A', 'B'],
+            'x': ['A', 'B'],
+            'y': [35, 45]}
+
     # get the chart and add some circles, stars, bars, and lines
     bc = jsc.get_bokeh_chart('chart_blank')
-    bc.exec_js("x_range.factors = ['A', 'B']")    
-    bc.vbar(x=['A', 'B'], top=[35, 45], width=0.25)
+    bc.exec_js(f"x_range.factors = {data['factors']}")
+    bc.exec_js(f"select(Bokeh.HoverTool)[0].tooltips = [['X', '@x'], ['Y', '@y']]")
+    bc.column_data_source(cds_name='cds', cds_data_json=json.dumps(data))
+    bc.vbar(source=obj('cds'), x=obj({'field': 'x'}), top=obj({'field': 'y'}), width=0.25)
 
 
 # start the app with the Bokeh plugin

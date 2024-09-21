@@ -10,7 +10,7 @@ def ready(jsc, *args):
     bc.vbar(x=[1.5, 2.5], top=[35, 45], width=0.25, color='purple', legend_label='BAR')
     bc.line(x=[0,1,2,3], y=[68, 51, 97, 63], legend_label='A')
     bc.line(x=[0,1,2,3], y=[28, 91, 66, 11], legend_label='B')
-    bc.line(x=[0,1,2,3], y=[20, 74, 29, 88], legend_label='C')    
+    bc.line(x=[0,1,2,3], y=[20, 74, 29, 88], legend_label='C')
 
 
 # start the app with the Bokeh plugin
